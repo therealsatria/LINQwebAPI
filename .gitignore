@@ -1,0 +1,130 @@
+# ================================
+# .NET Core / ASP.NET Core
+# ================================
+## Ignore Visual Studio temporary files, build results, and other files
+**/bin/
+**/obj/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+
+## MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+## Tooling
+.vs/
+.vscode/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+## Runtime data
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+
+## Files built by Visual Studio
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+## NuGet Packages
+*.nupkg
+packages/
+**/wwwroot/lib/
+
+## Publish output
+publish/
+out/
+
+## ASP.NET Core specific
+appsettings.Development.json
+appsettings.Production.json
+appsettings.*.json
+secrets.json
+web.config
+
+## Logs
+logs/
+*.log
+*.txt
+
+## Other
+*.bak
+*.cache
+*.tmp
+*.orig
+*~
+
+# ================================
+# React TypeScript (Frontend)
+# ================================
+## dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+## testing
+coverage/
+
+## production
+build/
+dist/
+
+## IDEs and editors
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+## Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+## Logs and databases
+*.log
+*.sqlite
+*.sqlite3
+
+## OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
