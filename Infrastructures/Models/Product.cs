@@ -1,5 +1,3 @@
-using System.Data;
-
 namespace Infrastructure.Models;
 
 public class Product
