@@ -47,7 +47,8 @@ public class ProductService : IProductService
         {
             Name = request.Name,
             Description = request.Description,
-            Price = request.Price
+            Price = request.Price,
+            CreatedAt = DateTime.UtcNow,
         };
         var createdProduct = await _repository.CreateAsync(product);
         return new ProductDto
@@ -57,7 +58,7 @@ public class ProductService : IProductService
             Description = createdProduct.Description,
             Price = createdProduct.Price,
             CreatedAt = createdProduct.CreatedAt,
-            UpdatedAt = createdProduct.UpdatedAt
+            UpdatedAt = DateTime.UtcNow,
         };
     }
     public async Task<ProductDto> UpdateAsync(Guid id, UpdateProductRequest request)
@@ -78,7 +79,7 @@ public class ProductService : IProductService
             Description = updatedProduct.Description,
             Price = updatedProduct.Price,
             CreatedAt = updatedProduct.CreatedAt,
-            UpdatedAt = updatedProduct.UpdatedAt
+            UpdatedAt = DateTime.UtcNow,
         };
     }
     public async Task DeleteAsync(Guid id)
