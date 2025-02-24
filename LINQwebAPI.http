@@ -1,0 +1,6 @@
+@LINQwebAPI_HostAddress = http://localhost:5289
+
+GET {{LINQwebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
