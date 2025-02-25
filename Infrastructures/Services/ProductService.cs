@@ -1,6 +1,7 @@
 using Infrastructure.DTOs;
 using Infrastructure.Models;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Infrastructure.Services;
 
@@ -51,14 +52,8 @@ public class ProductService : IProductService
             CreatedAt = DateTime.UtcNow,
         };
         var createdProduct = await _repository.CreateAsync(product);
-        return new ProductDto
-        {
-            Id = createdProduct.Id,
-            Name = createdProduct.Name,
-            Description = createdProduct.Description,
-            Price = createdProduct.Price,
-            CreatedAt = createdProduct.CreatedAt,
-            UpdatedAt = DateTime.UtcNow,
+        return new ProductDto{
+            Id = createdProduct.Id
         };
     }
     public async Task<ProductDto> UpdateAsync(Guid id, UpdateProductRequest request)

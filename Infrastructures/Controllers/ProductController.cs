@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Infrastructure.Controllers;
 
-[ApiController]
 [Route("api/[controller]")]
+[ApiController]
+
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -13,6 +14,7 @@ public class ProductController : ControllerBase
     {
         _productService = productService;
     }
+
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -32,9 +34,20 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest request)
     {
-        var createdProduct = await _productService.CreateAsync(request);
-        return CreatedAtAction(nameof(GetAsync), new { id = createdProduct.Id }, createdProduct);
+        // var createdProduct = await _productService.CreateAsync(request);
+        // return CreatedAtAction(nameof(GetAsync), new { id = createdProduct.Id }, createdProduct);
+        var Product = await _productService.CreateAsync(request);
+        return Ok(
+            new
+            {
+                statusCode = 201,
+                message = "Product created successfully",
+                Success = true,
+                Product
+            }
+        );
     }
+        
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
     {

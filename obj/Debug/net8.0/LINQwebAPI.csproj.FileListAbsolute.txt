@@ -152,9 +152,9 @@
 /home/satria/LINQwebAPI/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.LINQwebAPI.props
 /home/satria/LINQwebAPI/obj/Debug/net8.0/staticwebassets.pack.json
 /home/satria/LINQwebAPI/obj/Debug/net8.0/scopedcss/bundle/LINQwebAPI.styles.css
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.csproj.Up2Date
 /home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.dll
 /home/satria/LINQwebAPI/obj/Debug/net8.0/refint/LINQwebAPI.dll
 /home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.pdb
 /home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.genruntimeconfig.cache
 /home/satria/LINQwebAPI/obj/Debug/net8.0/ref/LINQwebAPI.dll
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.csproj.CopyComplete

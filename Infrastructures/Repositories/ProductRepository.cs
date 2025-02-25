@@ -20,8 +20,12 @@ public class ProductRepository : IProductRepository
     }
     public async Task<Product> CreateAsync(Product product)
     {
-        product.Id = Guid.NewGuid();
-        product.CreatedAt = DateTime.UtcNow;
+        // product.Id = Guid.NewGuid();
+        // product.CreatedAt = DateTime.UtcNow;
+        // _context.Products.Add(product);
+        // await _context.SaveChangesAsync();
+        // return product;
+
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
         return product;
