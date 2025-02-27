@@ -118,3 +118,113 @@ git push -u origin main
 `refactor/simplify-payment-logic`
 
 `experiment/test-new-auth-library`
+
+# ERD API Produk
+
+## Entitas
+
+### Products
+
+* **ProductID** (INT, Primary Key)
+* **ProductName** (VARCHAR)
+* **Description** (TEXT)
+* **Price** (DECIMAL)
+* **CategoryID** (INT, Foreign Key)
+* **SupplierID** (INT, Foreign Key)
+
+### Categories
+
+* **CategoryID** (INT, Primary Key)
+* **CategoryName** (VARCHAR)
+
+### Inventory
+
+* **InventoryID** (INT, Primary Key)
+* **ProductID** (INT, Foreign Key)
+* **StockQuantity** (INT)
+* **LastStockUpdate** (DATETIME)
+
+### Suppliers
+
+* **SupplierID** (INT, Primary Key)
+* **SupplierName** (VARCHAR)
+* **ContactPerson** (VARCHAR)
+* **ContactPhone** (VARCHAR)
+
+### Orders
+
+* **OrderID** (INT, Primary Key)
+* **OrderDate** (DATETIME)
+* **CustomerID** (INT, Foreign Key)
+* **TotalAmount** (DECIMAL)
+
+### OrderDetails
+
+* **OrderDetailID** (INT, Primary Key)
+* **OrderID** (INT, Foreign Key)
+* **ProductID** (INT, Foreign Key)
+* **Quantity** (INT)
+* **UnitPrice** (DECIMAL)
+
+## Relasi
+
+* Products memiliki satu Category (1:1..*).
+* Products memiliki satu Supplier (1:1).
+* Inventory terhubung ke satu Product (1:1).
+* Orders terdiri dari banyak OrderDetails (1:N).
+* OrderDetails terhubung ke satu Order (N:1).
+* OrderDetails terhubung ke satu Product (N:1).
+
+## Diagram
+
+```mermaid
+erDiagram
+    Products {
+        int ProductID PK
+        varchar ProductName
+        text Description
+        decimal Price
+        int CategoryID FK
+        int SupplierID FK
+    }
+
+    Categories {
+        int CategoryID PK
+        varchar CategoryName
+    }
+
+    Inventory {
+        int InventoryID PK
+        int ProductID FK
+        int StockQuantity
+        datetime LastStockUpdate
+    }
+
+    Suppliers {
+        int SupplierID PK
+        varchar SupplierName
+        varchar ContactPerson
+        varchar ContactPhone
+    }
+
+    Orders {
+        int OrderID PK
+        datetime OrderDate
+        int CustomerID FK
+        decimal TotalAmount
+    }
+
+    OrderDetails {
+        int OrderDetailID PK
+        int OrderID FK
+        int ProductID FK
+        int Quantity
+        decimal UnitPrice
+    }
+
+    Products }|--|| Categories : memiliki
+    Products }|--|| Suppliers : dari
+    Inventory }|--|| Products : memiliki
+    Orders ||--|{ OrderDetails : terdiri dari
+    OrderDetails }|--|| Orders : ada di
+    OrderDetails }|--|| Products : berisi
