@@ -13,7 +13,8 @@ namespace Infrastructure.Repositories
         }
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return await _context.Categories.AsNoTracking().ToListAsync();
+            var categories = await _context.Categories.AsNoTracking().ToListAsync();
+            return categories ?? new List<Category>();
         }
         public async Task<Category> GetAsync(Guid id)
         {
@@ -22,7 +23,14 @@ namespace Infrastructure.Repositories
                 throw new ArgumentException("Invalid category ID", nameof(id));
             }
 
-            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+            var category = await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+            if (category == null)
+            {
+                throw new KeyNotFoundException("Category not found");
+            }
+            return category;
+
+            // return await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
         }
         public async Task<Category> CreateAsync(Category category)
         {
