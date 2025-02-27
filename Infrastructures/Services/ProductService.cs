@@ -25,7 +25,8 @@ public class ProductService : IProductService
             Description = p.Description,
             Price = p.Price,
             CreatedAt = p.CreatedAt,
-            UpdatedAt = p.UpdatedAt
+            UpdatedAt = p.UpdatedAt,
+            CategoryId = p.CategoryId
         });
     }
     public async Task<ProductDto> GetAsync(Guid id)
@@ -42,7 +43,8 @@ public class ProductService : IProductService
             Description = product.Description,
             Price = product.Price,
             CreatedAt = product.CreatedAt,
-            UpdatedAt = product.UpdatedAt
+            UpdatedAt = product.UpdatedAt,
+            CategoryId = product.CategoryId
         };
     }
     public async Task<ProductDto> CreateAsync(CreateProductRequest request)
@@ -57,6 +59,7 @@ public class ProductService : IProductService
             Description = request.Description,
             Price = request.Price,
             CreatedAt = DateTime.UtcNow,
+            CategoryId = request.CategoryId
         };
         
         // Persist the new product to the database
@@ -70,7 +73,8 @@ public class ProductService : IProductService
             Description = createdProduct.Description,
             Price = createdProduct.Price,
             CreatedAt = createdProduct.CreatedAt,
-            UpdatedAt = createdProduct.UpdatedAt
+            UpdatedAt = createdProduct.UpdatedAt,
+            CategoryId = createdProduct.CategoryId
         };
     }
     public async Task<ProductDto> UpdateAsync(Guid id, UpdateProductRequest request)
@@ -84,6 +88,7 @@ public class ProductService : IProductService
         product.Description = request.Description;
         product.Price = request.Price;
         product.UpdatedAt = DateTime.UtcNow;
+        product.CategoryId = request.CategoryId;
 
         var updatedProduct = await _repository.UpdateAsync(id, product);
         return new ProductDto
@@ -93,7 +98,8 @@ public class ProductService : IProductService
             Description = updatedProduct.Description,
             Price = updatedProduct.Price,
             CreatedAt = updatedProduct.CreatedAt,
-            UpdatedAt = updatedProduct.UpdatedAt
+            UpdatedAt = updatedProduct.UpdatedAt,
+            CategoryId = updatedProduct.CategoryId
         };
     }
     public async Task DeleteAsync(Guid id)

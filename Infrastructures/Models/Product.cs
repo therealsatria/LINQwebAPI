@@ -8,4 +8,6 @@ public class Product
     public decimal Price { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+    public Guid CategoryId { get; set; }
+    public Category? Category { get; set; }
 }

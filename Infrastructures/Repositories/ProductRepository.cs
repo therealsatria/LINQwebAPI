@@ -60,6 +60,7 @@ public class ProductRepository : IProductRepository
         existingProduct.Description = product.Description;
         existingProduct.Price = product.Price;
         existingProduct.UpdatedAt = DateTime.UtcNow;
+        existingProduct.CategoryId = product.CategoryId;
 
         _context.Entry(existingProduct).State = EntityState.Modified;
         await _context.SaveChangesAsync();

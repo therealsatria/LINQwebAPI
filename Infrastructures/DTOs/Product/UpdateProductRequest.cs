@@ -10,4 +10,6 @@ public class UpdateProductRequest
     public string Description {get; set;} = string.Empty;
     [Required]
     public decimal Price {get; set;}
+    [Required]
+    public Guid CategoryId {get; set;}
 }
