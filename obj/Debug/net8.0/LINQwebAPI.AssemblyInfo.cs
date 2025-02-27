@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LINQwebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac57c7ea35cb8d7304874d9459c4e617abd46dd7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f800dd8ece08da58a4cd4a256ca0336c8bae4265")]
 [assembly: System.Reflection.AssemblyProductAttribute("LINQwebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LINQwebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
