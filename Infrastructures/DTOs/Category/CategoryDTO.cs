@@ -1,4 +1,4 @@
-namespace Infrastructure;
+namespace Infrastructure.DTOs.Category;
 
 public class CategoryDto
 {
