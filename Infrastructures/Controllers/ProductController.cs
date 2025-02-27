@@ -6,7 +6,6 @@ namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -19,7 +18,15 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var products = await _productService.GetAllAsync();
-        return Ok(products);
+        return Ok(
+            new
+            {
+                statusCode = 200,
+                message = "Products retrieved successfully",
+                Success = true,
+                Products = products
+            }
+        );
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync(Guid id)
@@ -27,15 +34,28 @@ public class ProductController : ControllerBase
         var product = await _productService.GetAsync(id);
         if (product == null)
         {
-            return NotFound();
+            return NotFound(
+                new
+                {
+                    statusCode = 404,
+                    message = "Product not found",
+                    Success = false
+                }
+            );
         }
-        return Ok(product);
+        return Ok(
+            new
+            {
+                statusCode = 200,
+                message = "Product retrieved successfully",
+                Success = true,
+                Product = product
+            }
+        );
     }
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest request)
     {
-        // var createdProduct = await _productService.CreateAsync(request);
-        // return CreatedAtAction(nameof(GetAsync), new { id = createdProduct.Id }, createdProduct);
         var Product = await _productService.CreateAsync(request);
         return Ok(
             new
@@ -52,12 +72,27 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
     {
         var updatedProduct = await _productService.UpdateAsync(id, request);
-        return Ok(updatedProduct);
+        return Ok(
+            new
+            {
+                statusCode = 200,
+                message = "Product updated successfully",
+                Success = true,
+                Product = updatedProduct
+            }
+    );
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         await _productService.DeleteAsync(id);
-        return NoContent();
+        return Ok(
+            new
+            {
+                statusCode = 200,
+                message = "Product deleted successfully",
+                Success = true
+            }
+        );
     }
 }

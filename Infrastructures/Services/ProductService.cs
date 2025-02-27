@@ -1,7 +1,7 @@
 using Infrastructure.DTOs;
+using Infrastructure.Exceptions;
 using Infrastructure.Models;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Infrastructure.Services;
 
@@ -10,11 +10,14 @@ public class ProductService : IProductService
     private readonly IProductRepository _repository;
     public ProductService(IProductRepository repository)
     {
-        _repository = repository;
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
     public async Task<IEnumerable<ProductDto>> GetAllAsync()
     {
+        // Retrieve all products from the repository
         var products = await _repository.GetAllAsync();
+        
+        // Map product entities to DTOs
         return products.Select(p => new ProductDto
         {
             Id = p.Id,
@@ -27,11 +30,11 @@ public class ProductService : IProductService
     }
     public async Task<ProductDto> GetAsync(Guid id)
     {
-        var product = await _repository.GetAsync(id);
-        if (product == null)
-        {
-            throw new InvalidOperationException("Product not found");
-        }
+        // Retrieve the product from the repository
+        var product = await _repository.GetAsync(id)
+            ?? throw new NotFoundException($"Product with ID {id} not found");
+        
+        // Map product entity to DTO
         return new ProductDto
         {
             Id = product.Id,
@@ -44,6 +47,10 @@ public class ProductService : IProductService
     }
     public async Task<ProductDto> CreateAsync(CreateProductRequest request)
     {
+        // Validate input parameters
+        ArgumentNullException.ThrowIfNull(request, nameof(request));
+        
+        // Create a new product entity
         var product = new Product
         {
             Name = request.Name,
@@ -51,21 +58,33 @@ public class ProductService : IProductService
             Price = request.Price,
             CreatedAt = DateTime.UtcNow,
         };
+        
+        // Persist the new product to the database
         var createdProduct = await _repository.CreateAsync(product);
-        return new ProductDto{
-            Id = createdProduct.Id
+        
+        // Map the created product to DTO and return
+        return new ProductDto
+        {
+            Id = createdProduct.Id,
+            Name = createdProduct.Name,
+            Description = createdProduct.Description,
+            Price = createdProduct.Price,
+            CreatedAt = createdProduct.CreatedAt,
+            UpdatedAt = createdProduct.UpdatedAt
         };
     }
     public async Task<ProductDto> UpdateAsync(Guid id, UpdateProductRequest request)
     {
-        var product = await _repository.GetAsync(id);
-        if (product == null)
-        {
-            throw new InvalidOperationException("Product not found");
-        }
+        ArgumentNullException.ThrowIfNull(request, nameof(request));
+
+        var product = await _repository.GetAsync(id) 
+        ?? throw new NotFoundException($"Product with ID {id} not found");
+
         product.Name = request.Name;
         product.Description = request.Description;
         product.Price = request.Price;
+        product.UpdatedAt = DateTime.UtcNow;
+
         var updatedProduct = await _repository.UpdateAsync(id, product);
         return new ProductDto
         {
@@ -74,16 +93,16 @@ public class ProductService : IProductService
             Description = updatedProduct.Description,
             Price = updatedProduct.Price,
             CreatedAt = updatedProduct.CreatedAt,
-            UpdatedAt = DateTime.UtcNow,
+            UpdatedAt = updatedProduct.UpdatedAt
         };
     }
     public async Task DeleteAsync(Guid id)
     {
-        var product = await _repository.GetAsync(id);
-        if (product == null)
-        {
-            throw new InvalidOperationException("Product not found");
-        }
+        // Verify the product exists before attempting to delete
+        var product = await _repository.GetAsync(id)
+            ?? throw new NotFoundException($"Product with ID {id} not found");
+        
+        // Delete the product from the repository
         await _repository.DeleteAsync(id);
     }
 }
