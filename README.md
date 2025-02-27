@@ -105,13 +105,16 @@ git remote add origin https://github.com/therealsatria/LINQwebAPI.git
 git branch -M main
 git push -u origin main
 
-<tipe>/<deskripsi-singkat>
-feature/add-payment-gateway
-feature/implement-email-notification
-feature/create-product-endpoint
-feature/add-search-functionality
-feature/add-user-authentication
-db/add-orders-table
-bugfix/fix-login-validation-error
-refactor/simplify-payment-logic
-experiment/test-new-auth-library
+`<tipe>/<deskripsi-singkat>`
+
+`feature/add-payment-gateway`
+
+`feature/add-user-authentication`
+
+`db/add-orders-table`
+
+`bugfix/fix-login-validation-error`
+
+`refactor/simplify-payment-logic`
+
+`experiment/test-new-auth-library`
