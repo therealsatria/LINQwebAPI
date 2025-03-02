@@ -10,4 +10,5 @@ public class Product
     public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     public Guid CategoryId { get; set; }
     public Category? Category { get; set; }
+    public ICollection<Inventory>? Inventories { get; set; }
 }
