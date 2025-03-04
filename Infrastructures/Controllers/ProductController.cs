@@ -1,4 +1,5 @@
 using Infrastructure.DTOs;
+using Infrastructure.Exceptions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +12,11 @@ public class ProductController : ControllerBase
     private readonly IProductService _productService;
     public ProductController(IProductService productService)
     {
-        _productService = productService;
+        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync()
     {
         var products = await _productService.GetAllAsync();
         return Ok(
@@ -28,8 +29,8 @@ public class ProductController : ControllerBase
             }
         );
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(Guid id)
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
     {
         var product = await _productService.GetAsync(id);
         if (product == null)
@@ -54,7 +55,7 @@ public class ProductController : ControllerBase
         );
     }
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] CreateProductRequest request)
+    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
     {
         var Product = await _productService.CreateAsync(request);
         return Ok(
@@ -68,8 +69,8 @@ public class ProductController : ControllerBase
         );
     }
         
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
     {
         var updatedProduct = await _productService.UpdateAsync(id, request);
         return Ok(
@@ -82,7 +83,7 @@ public class ProductController : ControllerBase
             }
     );
     }
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         await _productService.DeleteAsync(id);
