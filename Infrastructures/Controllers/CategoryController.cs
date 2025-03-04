@@ -1,5 +1,5 @@
 using Infrastructure.DTOs.Category;
-using Infrastructure.Repositories;
+using Infrastructure.Exceptions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
     {
         var categories = await _categoryService.GetAllAsync();
         return Ok(
@@ -29,36 +29,42 @@ public class CategoryController : ControllerBase
             }
         );
     }
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(Guid id)
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<CategoryDto>> GetAsync(Guid id)
     {
-        var category = await _categoryService.GetAsync(id);
-        if (category == null)
+        try
+        {
+            var category = await _categoryService.GetAsync(id);
+            return Ok(
+                new
+                {
+                    statusCode = 200,
+                    message = "Category retrieved successfully",
+                    Success = true,
+                    Category = category
+                }
+            );
+        }
+        catch (NotFoundException ex)
         {
             return NotFound(
                 new
                 {
                     statusCode = 404,
-                    message = "Category not found",
+                    message = ex.Message,
                     Success = false
                 }
             );
         }
-        return Ok(
-            new
-            {
-                statusCode = 200,
-                message = "Category retrieved successfully",
-                Success = true,
-                Category = category
-            }
-        );
     }
+
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] CreateCategoryRequest request)
+    public async Task<ActionResult<CategoryDto>> CreateAsync([FromBody] CreateCategoryRequest request)
     {
-        var category = await _categoryService.CreateAsync(request);
-        return Ok(
+        try
+        {
+            var category = await _categoryService.CreateAsync(request);
+            return Ok(
             new
             {
                 statusCode = 201,
@@ -66,38 +72,66 @@ public class CategoryController : ControllerBase
                 Success = true,
                 Category = category
             }
-        );
+            );
+        }
+        catch (ArgumentNullException ex)
+        {
+            return BadRequest(
+                new
+                {
+                    statusCode = 400,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
     }
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateCategoryRequest request)
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult<CategoryDto>> UpdateAsync(Guid id, [FromBody] UpdateCategoryRequest request)
     {
-        var category = await _categoryService.UpdateAsync(id, request);
-        if (category == null)
+        try
+        {
+            var category = await _categoryService.UpdateAsync(id, request);
+            return Ok(
+                new
+                {
+                    statusCode = 200,
+                    message = "Category updated successfully",
+                    Success = true,
+                    Category = category
+                }
+            );
+        }
+        catch (NotFoundException ex)
         {
             return NotFound(
                 new
                 {
                     statusCode = 404,
-                    message = "Category not found",
+                    message = ex.Message,
                     Success = false
                 }
             );
         }
-        return Ok(
-            new
-            {
-                statusCode = 200,
-                message = "Category updated successfully",
-                Success = true,
-                Category = category
-            }
-        );
+        catch (ArgumentNullException ex)
+        {
+            return BadRequest(
+                new
+                {
+                    statusCode = 400,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
     }
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        await _categoryService.DeleteAsync(id);
-        return Ok(
+        try
+        {
+            await _categoryService.DeleteAsync(id);
+            return Ok(
             new
             {
                 statusCode = 200,
@@ -105,5 +139,17 @@ public class CategoryController : ControllerBase
                 Success = true
             }
         );
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(
+                new
+                {
+                    statusCode = 404,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
     }
 }

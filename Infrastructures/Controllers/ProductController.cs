@@ -32,68 +32,124 @@ public class ProductController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
     {
-        var product = await _productService.GetAsync(id);
-        if (product == null)
+        try
+        {
+            var product = await _productService.GetAsync(id);
+            return Ok(
+                new
+                {
+                    statusCode = 200,
+                    message = "Product retrieved successfully",
+                    Success = true,
+                    Product = product
+                }
+            );
+        }
+        catch (NotFoundException ex)
         {
             return NotFound(
                 new
                 {
                     statusCode = 404,
-                    message = "Product not found",
+                    message = ex.Message,
                     Success = false
                 }
             );
         }
-        return Ok(
-            new
-            {
-                statusCode = 200,
-                message = "Product retrieved successfully",
-                Success = true,
-                Product = product
-            }
-        );
     }
     [HttpPost]
     public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
     {
-        var Product = await _productService.CreateAsync(request);
-        return Ok(
-            new
-            {
-                statusCode = 201,
-                message = "Product created successfully",
-                Success = true,
-                Product
-            }
-        );
+        try
+        {
+            var product = await _productService.CreateAsync(request);
+            return Ok(
+                new
+                {
+                    statusCode = 201,
+                    message = "Product created successfully",
+                    Success = true,
+                    Product = product
+                }
+            );
+        }
+        catch (ArgumentNullException ex)
+        {
+            return BadRequest(
+                new
+                {
+                    statusCode = 400,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
     }
         
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
     {
-        var updatedProduct = await _productService.UpdateAsync(id, request);
-        return Ok(
-            new
-            {
+        try
+        {
+            var updatedProduct = await _productService.UpdateAsync(id, request);
+            return Ok(
+                new
+                {
                 statusCode = 200,
                 message = "Product updated successfully",
                 Success = true,
                 Product = updatedProduct
-            }
-    );
+                }
+            );
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(
+                new
+                {
+                    statusCode = 404,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
+        catch (ArgumentNullException ex)
+        {
+            return BadRequest(
+                new
+                {
+                    statusCode = 400,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
     }
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        await _productService.DeleteAsync(id);
-        return Ok(
-            new
-            {
-                statusCode = 200,
-                message = "Product deleted successfully",
-                Success = true
-            }
-        );
+        try
+        {
+            await _productService.DeleteAsync(id);
+            return Ok(
+                new
+                {
+                    statusCode = 200,
+                    message = "Product deleted successfully",
+                    Success = true
+                }
+            );
+        }
+        catch (NotFoundException ex)
+        {
+            return NotFound(
+                new
+                {
+                    statusCode = 404,
+                    message = ex.Message,
+                    Success = false
+                }
+            );
+        }
     }
-}
+    }
