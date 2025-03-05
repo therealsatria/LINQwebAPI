@@ -223,3 +223,64 @@ erDiagram
     OrderDetails }|--|| Orders : ada di
     OrderDetails }|--|| Products : berisi
     Orders }|--|| Customer : ditempatkan oleh
+
+    ```mermaid
+    erDiagram
+    Products {
+        int ProductID PK
+        varchar ProductName
+        text Description
+        decimal Price
+        int CategoryID FK
+        int SupplierID FK
+    }
+
+    Categories {
+        int CategoryID PK
+        varchar CategoryName
+    }
+
+    Inventory {
+        int InventoryID PK
+        int ProductID FK
+        int StockQuantity
+        datetime LastStockUpdate
+    }
+
+    Suppliers {
+        int SupplierID PK
+        varchar SupplierName
+        varchar ContactPerson
+        varchar ContactPhone
+    }
+
+    Customers {
+        guid CustomerID PK
+        string Name
+        string Email
+        string Phone
+        string Address
+    }
+
+    Orders {
+        int OrderID PK
+        datetime OrderDate
+        guid CustomerID FK
+        decimal TotalAmount
+    }
+
+    OrderDetails {
+        int OrderDetailID PK
+        int OrderID FK
+        int ProductID FK
+        int Quantity
+        decimal UnitPrice
+    }
+
+    Products }|--|| Categories : memiliki
+    Products }|--|| Suppliers : dari
+    Inventory }|--|| Products : memiliki
+    Orders ||--|{ OrderDetails : terdiri dari
+    OrderDetails }|--|| Orders : ada di
+    OrderDetails }|--|| Products : berisi
+    Customers }|--|{ Orders : places
