@@ -61,7 +61,8 @@ public class ProductService : IProductService
             Description = request.Description,
             Price = request.Price,
             CreatedAt = DateTime.UtcNow,
-            CategoryId = request.CategoryId
+            CategoryId = request.CategoryId,
+            SupplierId = request.SupplierId
         };
         
         // Persist the new product to the database
@@ -92,6 +93,7 @@ public class ProductService : IProductService
         product.Price = request.Price;
         product.UpdatedAt = DateTime.UtcNow;
         product.CategoryId = request.CategoryId;
+        product.SupplierId = request.SupplierId;
 
         var updatedProduct = await _repository.UpdateAsync(id, product);
         return new ProductDto

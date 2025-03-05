@@ -18,12 +18,14 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Category)
             .WithMany(c => c.Products)
-            .HasForeignKey(p => p.CategoryId);
+            .HasForeignKey(p => p.CategoryId)
+            .IsRequired();
 
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Supplier)
             .WithMany(s => s.Products)
-            .HasForeignKey(p => p.SupplierId);
+            .HasForeignKey(p => p.SupplierId)
+            .IsRequired();
 
         modelBuilder.Entity<Inventory>()
             .HasOne(i => i.Product)
