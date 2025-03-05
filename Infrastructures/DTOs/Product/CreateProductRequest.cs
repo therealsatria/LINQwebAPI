@@ -12,4 +12,6 @@ public class CreateProductRequest
     public decimal Price {get; set;}
     [Required]
     public Guid CategoryId {get; set;}
+    [Required]
+    public Guid SupplierId {get; set;}
 }

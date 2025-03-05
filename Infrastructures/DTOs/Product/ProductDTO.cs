@@ -9,4 +9,5 @@ public class ProductDto
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public Guid CategoryId { get; set; }
+    public Guid SupplierId { get; set; }
 }

@@ -9,6 +9,8 @@ public class Product
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     public Guid CategoryId { get; set; }
+    public Guid SupplierId { get; set; }
     public Category? Category { get; set; }
-    public ICollection<Inventory>? Inventories { get; set; }
+    public Supplier? Supplier { get; set; }
+    public ICollection<Inventory>? Inventories { get; set; } = new List<Inventory>();
 }
