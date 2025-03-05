@@ -1,6 +1,7 @@
 using Infrastructure.Models;
 
 namespace Infrastructure.Repositories;
+
 public interface IInventoryRepository
 {
     Task<IEnumerable<Inventory>> GetAllAsync();

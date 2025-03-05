@@ -1,7 +1,6 @@
 using Infrastructure.Models;
 
 namespace Infrastructure.Repositories;
-
 public interface IProductRepository
 {
     Task<IEnumerable<Product>> GetAllAsync();

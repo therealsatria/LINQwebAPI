@@ -10,8 +10,8 @@ public class AppDbContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Inventory> Inventories => Set<Inventory>();
-    public DbSet<Suppliers> Suppliers => Set<Suppliers>();
-}
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
+
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,9 +25,9 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.SupplierId);
 
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.Inventory)
-            .WithOne(i => i.Product)
-            .HasForeignKey<Inventory>(i => i.ProductId);
+        modelBuilder.Entity<Inventory>()
+            .HasOne(i => i.Product)
+            .WithMany(p => p.Inventories)
+            .HasForeignKey(i => i.ProductId);
     }
 }

@@ -1,6 +1,6 @@
 namespace Infrastructure.Models;
 
-public class Suppliers
+public class Supplier
 {
     public Guid Id { get; set; }
     public required string SupplierName { get; set; }
