@@ -166,44 +166,52 @@ This project is licensed under the \[MIT/Apache 2.0/etc.] license.
 ```mermaid
 erDiagram
     Products {
-        int ProductID PK
+        guid ProductID PK
         varchar ProductName
         text Description
         decimal Price
-        int CategoryID FK
-        int SupplierID FK
+        guid CategoryID FK
+        guid SupplierID FK
     }
 
     Categories {
-        int CategoryID PK
+        guid CategoryID PK
         varchar CategoryName
     }
 
     Inventory {
-        int InventoryID PK
-        int ProductID FK
+        guid InventoryID PK
+        guid ProductID FK
         int StockQuantity
         datetime LastStockUpdate
     }
 
     Suppliers {
-        int SupplierID PK
+        guid SupplierID PK
         varchar SupplierName
         varchar ContactPerson
         varchar ContactPhone
     }
 
+    Customer {
+        guid Id PK
+        varchar Name
+        varchar Email
+        varchar Phone
+        varchar Address
+    }
+
     Orders {
-        int OrderID PK
+        guid OrderID PK
         datetime OrderDate
-        int CustomerID FK
+        guid CustomerID FK
         decimal TotalAmount
     }
 
     OrderDetails {
-        int OrderDetailID PK
-        int OrderID FK
-        int ProductID FK
+        guid OrderDetailID PK
+        guid OrderID FK
+        guid ProductID FK
         int Quantity
         decimal UnitPrice
     }
@@ -214,3 +222,4 @@ erDiagram
     Orders ||--|{ OrderDetails : terdiri dari
     OrderDetails }|--|| Orders : ada di
     OrderDetails }|--|| Products : berisi
+    Orders }|--|| Customer : ditempatkan oleh
