@@ -171,7 +171,18 @@ erDiagram
         text Description
         decimal Price
         guid CategoryID FK
+    }
+
+    ProductSupplier {
+        guid ProductID FK
         guid SupplierID FK
+    }
+
+    Suppliers {
+        guid SupplierID PK
+        varchar SupplierName
+        varchar ContactPerson
+        varchar ContactPhone
     }
 
     Categories {
@@ -184,13 +195,6 @@ erDiagram
         guid ProductID FK
         int StockQuantity
         datetime LastStockUpdate
-    }
-
-    Suppliers {
-        guid SupplierID PK
-        varchar SupplierName
-        varchar ContactPerson
-        varchar ContactPhone
     }
 
     Customer {
@@ -216,10 +220,13 @@ erDiagram
         decimal UnitPrice
     }
 
-    Products }|--|| Categories : memiliki
-    Products }|--|| Suppliers : dari
-    Inventory }|--|| Products : memiliki
-    Orders ||--|{ OrderDetails : terdiri dari
-    OrderDetails }|--|| Orders : ada di
-    OrderDetails }|--|| Products : berisi
-    Orders }|--|| Customer : ditempatkan oleh
+    Products }|--|| Categories : "memiliki"
+    Products ||--|{ ProductSupplier : "dapat disuplai oleh"
+    Suppliers ||--|{ ProductSupplier : "menyuplai"
+    ProductSupplier }|--|| Products : "terkait dengan"
+    ProductSupplier }|--|| Suppliers : "terkait dengan"
+    Inventory }|--|| Products : "memiliki"
+    Orders ||--|{ OrderDetails : "terdiri dari"
+    OrderDetails }|--|| Orders : "ada di"
+    OrderDetails }|--|| Products : "berisi"
+    Orders }|--|| Customer : "ditempatkan oleh"
