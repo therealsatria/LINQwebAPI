@@ -1,3 +1,11 @@
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.csproj.AssemblyReference.cache
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.GeneratedMSBuildEditorConfig.editorconfig
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.AssemblyInfoInputs.cache
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.AssemblyInfo.cs
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.csproj.CoreCompileInputs.cache
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.MvcApplicationPartsAssemblyInfo.cs
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.MvcApplicationPartsAssemblyInfo.cache
+/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.sourcelink.json
 /home/satria/LINQwebAPI/bin/Debug/net8.0/appsettings.Development.json
 /home/satria/LINQwebAPI/bin/Debug/net8.0/appsettings.json
 /home/satria/LINQwebAPI/bin/Debug/net8.0/LINQwebAPI
@@ -136,14 +144,6 @@
 /home/satria/LINQwebAPI/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
 /home/satria/LINQwebAPI/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
 /home/satria/LINQwebAPI/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.csproj.AssemblyReference.cache
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.GeneratedMSBuildEditorConfig.editorconfig
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.AssemblyInfoInputs.cache
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.AssemblyInfo.cs
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.csproj.CoreCompileInputs.cache
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.MvcApplicationPartsAssemblyInfo.cs
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.MvcApplicationPartsAssemblyInfo.cache
-/home/satria/LINQwebAPI/obj/Debug/net8.0/LINQwebAPI.sourcelink.json
 /home/satria/LINQwebAPI/obj/Debug/net8.0/staticwebassets.build.json
 /home/satria/LINQwebAPI/obj/Debug/net8.0/staticwebassets.development.json
 /home/satria/LINQwebAPI/obj/Debug/net8.0/staticwebassets/msbuild.LINQwebAPI.Microsoft.AspNetCore.StaticWebAssets.props
