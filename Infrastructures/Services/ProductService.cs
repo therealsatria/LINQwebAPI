@@ -26,7 +26,8 @@ public class ProductService : IProductService
             Price = p.Price,
             CreatedAt = p.CreatedAt,
             UpdatedAt = p.UpdatedAt,
-            CategoryId = p.CategoryId
+            CategoryId = p.CategoryId,
+            SupplierId = p.SupplierId
         });
     }
     public async Task<ProductDto> GetAsync(Guid id)
@@ -44,7 +45,8 @@ public class ProductService : IProductService
             Price = product.Price,
             CreatedAt = product.CreatedAt,
             UpdatedAt = product.UpdatedAt,
-            CategoryId = product.CategoryId
+            CategoryId = product.CategoryId,
+            SupplierId = product.SupplierId
         };
     }
     public async Task<ProductDto> CreateAsync(CreateProductRequest request)
@@ -74,7 +76,8 @@ public class ProductService : IProductService
             Price = createdProduct.Price,
             CreatedAt = createdProduct.CreatedAt,
             UpdatedAt = createdProduct.UpdatedAt,
-            CategoryId = createdProduct.CategoryId
+            CategoryId = createdProduct.CategoryId,
+            SupplierId = createdProduct.SupplierId
         };
     }
     public async Task<ProductDto> UpdateAsync(Guid id, UpdateProductRequest request)
@@ -99,7 +102,8 @@ public class ProductService : IProductService
             Price = updatedProduct.Price,
             CreatedAt = updatedProduct.CreatedAt,
             UpdatedAt = updatedProduct.UpdatedAt,
-            CategoryId = updatedProduct.CategoryId
+            CategoryId = updatedProduct.CategoryId,
+            SupplierId = updatedProduct.SupplierId
         };
     }
     public async Task DeleteAsync(Guid id)
