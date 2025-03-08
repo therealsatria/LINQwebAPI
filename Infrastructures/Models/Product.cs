@@ -13,4 +13,5 @@ public class Product
     public Category? Category { get; set; }
     public Supplier? Supplier { get; set; }
     public ICollection<Inventory>? Inventories { get; set; } = new List<Inventory>();
+    public ICollection<OrderDetail>? OrderDetails { get; set; } = new List<OrderDetail>();
 }
