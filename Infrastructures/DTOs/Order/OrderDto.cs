@@ -1,4 +1,4 @@
-namespace LINQwebAPI.Infrastructures.DTOs.Order;
+namespace Infrastructure.DTOs;
 
 public class OrderDto
 {
