@@ -6,6 +6,7 @@ public class Order
     public DateTime OrderDate { get; set; }
     public Guid CustomerId { get; set; }
     public decimal TotalAmount { get; set; }
+    
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public Customer? Customer { get; set; }
