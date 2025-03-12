@@ -223,3 +223,4 @@ erDiagram
     OrderDetails }|--|| Orders : ada di
     OrderDetails }|--|| Products : berisi
     Orders }|--|| Customer : ditempatkan oleh
+

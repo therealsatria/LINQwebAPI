@@ -7,41 +7,43 @@ namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class OrderDetailController : ControllerBase
 {
-    private readonly IProductService _productService;
-    public ProductController(IProductService productService)
+    private readonly IOrderDetailService _orderDetailService;
+
+    public OrderDetailController(IOrderDetailService orderDetailService)
     {
-        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _orderDetailService = orderDetailService ?? throw new ArgumentNullException(nameof(orderDetailService));
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<OrderDetailDto>>> GetAllAsync()
     {
-        var products = await _productService.GetAllAsync();
+        var orderDetails = await _orderDetailService.GetAllAsync();
         return Ok(
             new
             {
                 statusCode = 200,
-                message = "Products retrieved successfully",
+                message = "Order details retrieved successfully",
                 Success = true,
-                Products = products
+                OrderDetails = orderDetails
             }
         );
     }
+
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
+    public async Task<ActionResult<OrderDetailDto>> GetAsync(Guid id)
     {
         try
         {
-            var product = await _productService.GetAsync(id);
+            var orderDetail = await _orderDetailService.GetAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product retrieved successfully",
+                    message = "Order detail retrieved successfully",
                     Success = true,
-                    Product = product
+                    OrderDetail = orderDetail
                 }
             );
         }
@@ -58,47 +60,46 @@ public class ProductController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
+    public async Task<ActionResult<OrderDetailDto>> CreateAsync([FromBody] CreateOrderDetailRequest request)
     {
         try
         {
-            var product = await _productService.CreateAsync(request);
+            var orderDetail = await _orderDetailService.CreateAsync(request);
             return Ok(
                 new
                 {
                     statusCode = 201,
-                    message = "Product created successfully",
+                    message = "Order detail created successfully",
                     Success = true,
-                    Product = product
+                    OrderDetail = orderDetail
                 }
             );
         }
-        catch (ArgumentNullException ex)
+        catch (NotFoundException ex)
         {
             return BadRequest(
                 new
                 {
-                    statusCode = 400,
+                    statusCode = 404,
                     message = ex.Message,
                     Success = false
                 }
             );
         }
     }
-        
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
+    public async Task<ActionResult<OrderDetailDto>> UpdateAsync(Guid id, [FromBody] UpdateOrderDetailRequest request)
     {
         try
         {
-            var updatedProduct = await _productService.UpdateAsync(id, request);
+            var orderDetail = await _orderDetailService.UpdateAsync(id, request);
             return Ok(
                 new
                 {
-                statusCode = 200,
-                message = "Product updated successfully",
-                Success = true,
-                Product = updatedProduct
+                    statusCode = 200,
+                    message = "Order detail updated successfully",
+                    Success = true,
+                    OrderDetail = orderDetail
                 }
             );
         }
@@ -126,17 +127,17 @@ public class ProductController : ControllerBase
         }
     }
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    public async Task<ActionResult<OrderDetailDto>> DeleteAsync(Guid id)
     {
         try
         {
-            await _productService.DeleteAsync(id);
+            await _orderDetailService.DeleteAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product deleted successfully",
-                    Success = true
+                    message = "Order detail deleted successfully",
+                    Success = true,
                 }
             );
         }
@@ -152,4 +153,4 @@ public class ProductController : ControllerBase
             );
         }
     }
-    }
+}

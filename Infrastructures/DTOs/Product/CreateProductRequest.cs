@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.DTOs;
 
-public class UpdateProductRequest
+public class CreateProductRequest
 {
     [Required]
     public string Name {get; set;} = string.Empty;
@@ -10,4 +10,8 @@ public class UpdateProductRequest
     public string Description {get; set;} = string.Empty;
     [Required]
     public decimal Price {get; set;}
+    [Required]
+    public Guid CategoryId {get; set;}
+    [Required]
+    public Guid SupplierId {get; set;}
 }

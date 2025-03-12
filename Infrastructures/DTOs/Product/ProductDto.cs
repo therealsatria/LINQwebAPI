@@ -8,4 +8,6 @@ public class ProductDto
     public decimal Price { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    public Guid CategoryId { get; set; }
+    public Guid SupplierId { get; set; }
 }

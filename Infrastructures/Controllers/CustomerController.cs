@@ -7,41 +7,42 @@ namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class CustomerController : ControllerBase
 {
-    private readonly IProductService _productService;
-    public ProductController(IProductService productService)
+    private readonly ICustomerService _customerService;
+
+    public CustomerController(ICustomerService customerService)
     {
-        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<CustomerDto>>> GetAllAsync()
     {
-        var products = await _productService.GetAllAsync();
+        var customers = await _customerService.GetAllAsync();
         return Ok(
             new
             {
                 statusCode = 200,
-                message = "Products retrieved successfully",
+                message = "Customers retrieved successfully",
                 Success = true,
-                Products = products
+                Customers = customers
             }
         );
     }
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
+    public async Task<ActionResult<CustomerDto>> GetAsync(Guid id)
     {
         try
         {
-            var product = await _productService.GetAsync(id);
+            var customer = await _customerService.GetAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product retrieved successfully",
+                    message = "Customer retrieved successfully",
                     Success = true,
-                    Product = product
+                    Customer = customer
                 }
             );
         }
@@ -58,22 +59,22 @@ public class ProductController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
+    public async Task<ActionResult<CustomerDto>> CreateAsync([FromBody] CreateCustomerRequest request)
     {
         try
         {
-            var product = await _productService.CreateAsync(request);
+            var customer = await _customerService.CreateAsync(request);
             return Ok(
                 new
                 {
                     statusCode = 201,
-                    message = "Product created successfully",
+                    message = "Customer created successfully",
                     Success = true,
-                    Product = product
+                    Customer = customer
                 }
             );
         }
-        catch (ArgumentNullException ex)
+        catch (ArgumentException ex)
         {
             return BadRequest(
                 new
@@ -85,20 +86,19 @@ public class ProductController : ControllerBase
             );
         }
     }
-        
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
+    public async Task<ActionResult<CustomerDto>> UpdateAsync(Guid id, [FromBody] UpdateCustomerRequest request)
     {
         try
         {
-            var updatedProduct = await _productService.UpdateAsync(id, request);
+            var updatedCustomer = await _customerService.UpdateAsync(id, request);
             return Ok(
                 new
                 {
-                statusCode = 200,
-                message = "Product updated successfully",
-                Success = true,
-                Product = updatedProduct
+                    statusCode = 200,
+                    message = "Customer updated successfully",
+                    Success = true,
+                    Customer = updatedCustomer
                 }
             );
         }
@@ -112,7 +112,7 @@ public class ProductController : ControllerBase
                     Success = false
                 }
             );
-        }
+            }
         catch (ArgumentNullException ex)
         {
             return BadRequest(
@@ -130,12 +130,12 @@ public class ProductController : ControllerBase
     {
         try
         {
-            await _productService.DeleteAsync(id);
+            await _customerService.DeleteAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product deleted successfully",
+                    message = "Customer deleted successfully",
                     Success = true
                 }
             );
@@ -152,4 +152,4 @@ public class ProductController : ControllerBase
             );
         }
     }
-    }
+}

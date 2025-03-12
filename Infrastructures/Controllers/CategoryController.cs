@@ -1,4 +1,4 @@
-using Infrastructure.DTOs;
+using Infrastructure.DTOs.Category;
 using Infrastructure.Exceptions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,41 +7,41 @@ namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class CategoryController : ControllerBase
 {
-    private readonly IProductService _productService;
-    public ProductController(IProductService productService)
+    private readonly ICategoryService _categoryService;
+    public CategoryController(ICategoryService categoryService)
     {
-        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _categoryService = categoryService ?? throw new ArgumentNullException(nameof(CategoryService));
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
     {
-        var products = await _productService.GetAllAsync();
+        var categories = await _categoryService.GetAllAsync();
         return Ok(
             new
             {
                 statusCode = 200,
-                message = "Products retrieved successfully",
+                message = "Categories retrieved successfully",
                 Success = true,
-                Products = products
+                Categories = categories
             }
         );
     }
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
+    public async Task<ActionResult<CategoryDto>> GetAsync(Guid id)
     {
         try
         {
-            var product = await _productService.GetAsync(id);
+            var category = await _categoryService.GetAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product retrieved successfully",
+                    message = "Category retrieved successfully",
                     Success = true,
-                    Product = product
+                    Category = category
                 }
             );
         }
@@ -57,20 +57,21 @@ public class ProductController : ControllerBase
             );
         }
     }
+
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
+    public async Task<ActionResult<CategoryDto>> CreateAsync([FromBody] CreateCategoryRequest request)
     {
         try
         {
-            var product = await _productService.CreateAsync(request);
+            var category = await _categoryService.CreateAsync(request);
             return Ok(
-                new
-                {
-                    statusCode = 201,
-                    message = "Product created successfully",
-                    Success = true,
-                    Product = product
-                }
+            new
+            {
+                statusCode = 201,
+                message = "Category created successfully",
+                Success = true,
+                Category = category
+            }
             );
         }
         catch (ArgumentNullException ex)
@@ -85,20 +86,19 @@ public class ProductController : ControllerBase
             );
         }
     }
-        
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
+    public async Task<ActionResult<CategoryDto>> UpdateAsync(Guid id, [FromBody] UpdateCategoryRequest request)
     {
         try
         {
-            var updatedProduct = await _productService.UpdateAsync(id, request);
+            var category = await _categoryService.UpdateAsync(id, request);
             return Ok(
                 new
                 {
-                statusCode = 200,
-                message = "Product updated successfully",
-                Success = true,
-                Product = updatedProduct
+                    statusCode = 200,
+                    message = "Category updated successfully",
+                    Success = true,
+                    Category = category
                 }
             );
         }
@@ -130,15 +130,15 @@ public class ProductController : ControllerBase
     {
         try
         {
-            await _productService.DeleteAsync(id);
+            await _categoryService.DeleteAsync(id);
             return Ok(
-                new
-                {
-                    statusCode = 200,
-                    message = "Product deleted successfully",
-                    Success = true
-                }
-            );
+            new
+            {
+                statusCode = 200,
+                message = "Category deleted successfully",
+                Success = true
+            }
+        );
         }
         catch (NotFoundException ex)
         {
@@ -152,4 +152,4 @@ public class ProductController : ControllerBase
             );
         }
     }
-    }
+}

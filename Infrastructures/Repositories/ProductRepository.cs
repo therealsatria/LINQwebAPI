@@ -12,7 +12,8 @@ public class ProductRepository : IProductRepository
     }
     public async Task<IEnumerable<Product>> GetAllAsync()
     {
-        return await _context.Products.AsNoTracking().ToListAsync();
+        var products = await _context.Products.AsNoTracking().ToListAsync();
+        return products ?? new List<Product>();
     }
     public async Task<Product> GetAsync(Guid id)
     {
@@ -21,7 +22,12 @@ public class ProductRepository : IProductRepository
             throw new ArgumentException("Invalid product ID", nameof(id));
         }
 
-        return await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        if (product == null)
+        {
+            throw new KeyNotFoundException("Product not found");
+        }
+        return product;
     }
     public async Task<Product> CreateAsync(Product product)
     {
@@ -60,6 +66,8 @@ public class ProductRepository : IProductRepository
         existingProduct.Description = product.Description;
         existingProduct.Price = product.Price;
         existingProduct.UpdatedAt = DateTime.UtcNow;
+        existingProduct.CategoryId = product.CategoryId;
+        existingProduct.SupplierId = product.SupplierId;
 
         _context.Entry(existingProduct).State = EntityState.Modified;
         await _context.SaveChangesAsync();

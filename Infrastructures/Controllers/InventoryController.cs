@@ -7,41 +7,43 @@ namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class InventoryController : ControllerBase
 {
-    private readonly IProductService _productService;
-    public ProductController(IProductService productService)
+    private readonly IInventoryService _inventoryService;
+
+    public InventoryController(IInventoryService inventoryService)
     {
-        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _inventoryService = inventoryService ?? throw new ArgumentNullException(nameof(inventoryService));
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<InventoryDto>>> GetAllAsync()
     {
-        var products = await _productService.GetAllAsync();
+        var inventories = await _inventoryService.GetAllAsync();
         return Ok(
             new
             {
                 statusCode = 200,
-                message = "Products retrieved successfully",
+                message = "Inventories retrieved successfully",
                 Success = true,
-                Products = products
+                Inventories = inventories
             }
         );
     }
+
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
+    public async Task<ActionResult<InventoryDto>> GetAsync(Guid id)
     {
         try
         {
-            var product = await _productService.GetAsync(id);
+            var inventory = await _inventoryService.GetAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product retrieved successfully",
+                    message = "Inventory retrieved successfully",
                     Success = true,
-                    Product = product
+                    Inventory = inventory
                 }
             );
         }
@@ -57,19 +59,20 @@ public class ProductController : ControllerBase
             );
         }
     }
+
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
+    public async Task<ActionResult<InventoryDto>> CreateAsync([FromBody] CreateInventoryRequest request)
     {
         try
         {
-            var product = await _productService.CreateAsync(request);
+            var inventory = await _inventoryService.CreateAsync(request);
             return Ok(
                 new
                 {
                     statusCode = 201,
-                    message = "Product created successfully",
+                    message = "Inventory created successfully",
                     Success = true,
-                    Product = product
+                    Inventory = inventory
                 }
             );
         }
@@ -85,20 +88,20 @@ public class ProductController : ControllerBase
             );
         }
     }
-        
+
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
+    public async Task<ActionResult<InventoryDto>> UpdateAsync(Guid id, [FromBody] UpdateInventoryRequest request)
     {
         try
         {
-            var updatedProduct = await _productService.UpdateAsync(id, request);
+            var inventory = await _inventoryService.UpdateAsync(id, request);
             return Ok(
                 new
                 {
-                statusCode = 200,
-                message = "Product updated successfully",
-                Success = true,
-                Product = updatedProduct
+                    statusCode = 200,
+                    message = "Inventory updated successfully",
+                    Success = true,
+                    Inventory = inventory
                 }
             );
         }
@@ -125,17 +128,18 @@ public class ProductController : ControllerBase
             );
         }
     }
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         try
         {
-            await _productService.DeleteAsync(id);
+            await _inventoryService.DeleteAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product deleted successfully",
+                    message = "Inventory deleted successfully",
                     Success = true
                 }
             );
@@ -152,4 +156,4 @@ public class ProductController : ControllerBase
             );
         }
     }
-    }
+}

@@ -7,41 +7,43 @@ namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class SupplierController : ControllerBase
 {
-    private readonly IProductService _productService;
-    public ProductController(IProductService productService)
+    private readonly ISupplierService _supplierService;
+
+    public SupplierController(ISupplierService supplierService)
     {
-        _productService = productService ?? throw new ArgumentNullException(nameof(productService));
+        _supplierService = supplierService ?? throw new ArgumentNullException(nameof(supplierService));
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync()
+    public async Task<ActionResult<IEnumerable<SupplierDto>>> GetAllAsync()
     {
-        var products = await _productService.GetAllAsync();
+        var suppliers = await _supplierService.GetAllAsync();
         return Ok(
             new
             {
                 statusCode = 200,
-                message = "Products retrieved successfully",
+                message = "Suppliers retrieved successfully",
                 Success = true,
-                Products = products
+                Suppliers = suppliers
             }
         );
     }
+
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(Guid id)
+    public async Task<ActionResult<SupplierDto>> GetAsync(Guid id)
     {
         try
         {
-            var product = await _productService.GetAsync(id);
+            var supplier = await _supplierService.GetAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product retrieved successfully",
+                    message = "Supplier retrieved successfully",
                     Success = true,
-                    Product = product
+                    Supplier = supplier
                 }
             );
         }
@@ -57,19 +59,20 @@ public class ProductController : ControllerBase
             );
         }
     }
+
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateAsync([FromBody] CreateProductRequest request)
+    public async Task<ActionResult<SupplierDto>> CreateAsync([FromBody] CreateSupplierRequest request)
     {
         try
         {
-            var product = await _productService.CreateAsync(request);
+            var supplier = await _supplierService.CreateAsync(request);
             return Ok(
                 new
                 {
                     statusCode = 201,
-                    message = "Product created successfully",
+                    message = "Supplier created successfully",
                     Success = true,
-                    Product = product
+                    Supplier = supplier
                 }
             );
         }
@@ -85,20 +88,20 @@ public class ProductController : ControllerBase
             );
         }
     }
-        
+
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> UpdateAsync(Guid id, [FromBody] UpdateProductRequest request)
+    public async Task<ActionResult<SupplierDto>> UpdateAsync(Guid id, [FromBody] UpdateSupplierRequest request)
     {
         try
         {
-            var updatedProduct = await _productService.UpdateAsync(id, request);
+            var updatedSupplier = await _supplierService.UpdateAsync(id, request);
             return Ok(
                 new
                 {
-                statusCode = 200,
-                message = "Product updated successfully",
-                Success = true,
-                Product = updatedProduct
+                    statusCode = 200,
+                    message = "Supplier updated successfully",
+                    Success = true,
+                    Supplier = updatedSupplier
                 }
             );
         }
@@ -125,17 +128,18 @@ public class ProductController : ControllerBase
             );
         }
     }
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         try
         {
-            await _productService.DeleteAsync(id);
+            await _supplierService.DeleteAsync(id);
             return Ok(
                 new
                 {
                     statusCode = 200,
-                    message = "Product deleted successfully",
+                    message = "Supplier deleted successfully",
                     Success = true
                 }
             );
@@ -152,4 +156,4 @@ public class ProductController : ControllerBase
             );
         }
     }
-    }
+}
