@@ -1,12 +1,14 @@
 using Infrastructure.DTOs.Category;
 using Infrastructure.Exceptions;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
@@ -16,6 +18,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
     {
         var categories = await _categoryService.GetAllAsync();
@@ -30,6 +33,7 @@ public class CategoryController : ControllerBase
         );
     }
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<ActionResult<CategoryDto>> GetAsync(Guid id)
     {
         try
@@ -59,6 +63,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CategoryDto>> CreateAsync([FromBody] CreateCategoryRequest request)
     {
         try
@@ -87,6 +92,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CategoryDto>> UpdateAsync(Guid id, [FromBody] UpdateCategoryRequest request)
     {
         try
@@ -126,6 +132,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         try

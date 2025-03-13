@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<User> Users => Set<User>();
 
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
