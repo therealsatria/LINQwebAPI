@@ -2,15 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Infrastructure.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Services;
-
-public interface ITokenService
-{
-    string CreateToken(User user);
-}
 
 public class TokenService : ITokenService
 {

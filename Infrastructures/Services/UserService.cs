@@ -4,14 +4,6 @@ using Infrastructure.Repositories;
 
 namespace Infrastructure.Services;
 
-public interface IUserService
-{
-    Task<UserDto?> LoginAsync(LoginDto loginDto);
-    Task<UserDto?> RegisterAsync(RegisterDto registerDto);
-    Task<UserDto?> GetUserByIdAsync(Guid id);
-    Task<IEnumerable<UserDto>> GetAllUsersAsync();
-}
-
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
