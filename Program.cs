@@ -47,6 +47,7 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+//builder.Services.AddScoped<IReportService, ReportService>();
 
 // Add JWT Authentication services
 builder.Services.AddScoped<IUserRepository, UserRepository>();

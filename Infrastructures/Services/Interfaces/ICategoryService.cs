@@ -1,1 +1,0 @@
-// Kita hapus file ini karena kita menggunakan GenericService langsung tanpa interface khusus 
