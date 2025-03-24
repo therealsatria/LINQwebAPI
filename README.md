@@ -57,29 +57,129 @@ This project is an example implementation of a Web API using ASP.NET Core 8 with
 
 ## API Endpoints
 
-* `GET /api/products`: Get a list of all products.
-* `GET /api/products/{id}`: Get product details by ID.
-* `POST /api/products`: Add a new product.
-* `PUT /api/products/{id}`: Modify product data.
-* `DELETE /api/products/{id}`: Delete a product.
+### Authentication
+* `POST /api/Auth/login` - Login dan mendapatkan token JWT
+* `POST /api/Auth/register` - Registrasi pengguna baru
+* `GET /api/Auth/me` - Mendapatkan informasi user yang sedang login
+
+### Products
+* `GET /api/Products` - Mendapatkan daftar semua produk
+* `GET /api/Products/{id}` - Mendapatkan detail produk berdasarkan ID
+* `POST /api/Products` - Menambahkan produk baru (Auth)
+* `PUT /api/Products/{id}` - Mengubah data produk (Auth)
+* `DELETE /api/Products/{id}` - Menghapus produk (Auth)
+
+### Categories
+* `GET /api/Categories` - Mendapatkan daftar semua kategori
+* `GET /api/Categories/{id}` - Mendapatkan detail kategori berdasarkan ID
+* `POST /api/Categories` - Menambahkan kategori baru (Admin only)
+* `PUT /api/Categories/{id}` - Mengubah data kategori (Admin only)
+* `DELETE /api/Categories/{id}` - Menghapus kategori (Admin only)
+
+### Suppliers
+* `GET /api/Suppliers` - Mendapatkan daftar semua supplier
+* `GET /api/Suppliers/{id}` - Mendapatkan detail supplier berdasarkan ID
+* `POST /api/Suppliers` - Menambahkan supplier baru (Auth)
+* `PUT /api/Suppliers/{id}` - Mengubah data supplier (Auth)
+* `DELETE /api/Suppliers/{id}` - Menghapus supplier (Auth)
+
+### Inventory
+* `GET /api/Inventory` - Mendapatkan daftar semua inventaris
+* `GET /api/Inventory/{id}` - Mendapatkan detail inventaris berdasarkan ID
+* `POST /api/Inventory` - Menambahkan inventaris baru (Auth)
+* `PUT /api/Inventory/{id}` - Mengubah data inventaris (Auth)
+* `DELETE /api/Inventory/{id}` - Menghapus inventaris (Auth)
+
+### Orders
+* `GET /api/Orders` - Mendapatkan daftar semua pesanan
+* `GET /api/Orders/{id}` - Mendapatkan detail pesanan berdasarkan ID
+* `POST /api/Orders` - Menambahkan pesanan baru (Auth)
+* `PUT /api/Orders/{id}` - Mengubah data pesanan (Auth)
+* `DELETE /api/Orders/{id}` - Menghapus pesanan (Auth)
+
+### OrderDetails
+* `GET /api/OrderDetails` - Mendapatkan daftar semua detail pesanan
+* `GET /api/OrderDetails/{id}` - Mendapatkan detail pesanan berdasarkan ID
+* `POST /api/OrderDetails` - Menambahkan detail pesanan baru (Auth)
+* `PUT /api/OrderDetails/{id}` - Mengubah data detail pesanan (Auth)
+* `DELETE /api/OrderDetails/{id}` - Menghapus detail pesanan (Auth)
+
+### Customers
+* `GET /api/Customers` - Mendapatkan daftar semua pelanggan
+* `GET /api/Customers/{id}` - Mendapatkan detail pelanggan berdasarkan ID
+* `POST /api/Customers` - Menambahkan pelanggan baru (Auth)
+* `PUT /api/Customers/{id}` - Mengubah data pelanggan (Auth)
+* `DELETE /api/Customers/{id}` - Menghapus pelanggan (Auth)
+
+### Reports
+* `GET /api/Report/products-by-category` - Laporan produk berdasarkan kategori
+* `GET /api/Report/products-by-category/{categoryId}` - Laporan produk untuk kategori tertentu
+* `GET /api/Report/purchase-details` - Laporan detail pembelian untuk semua pesanan
+* `GET /api/Report/purchase-details/{orderId}` - Laporan detail pembelian untuk pesanan tertentu
+* `GET /api/Report/inventory-value` - Laporan nilai inventaris (Auth)
+* `GET /api/Report/stock-history` - Laporan riwayat perubahan stok (Auth)
+* `GET /api/Report/stock-history/product/{productId}` - Laporan riwayat perubahan stok untuk produk tertentu (Auth)
 
 ## Usage Examples
 
-* **Add Product:**
+* **Login dan Mendapatkan Token:**
+    ```http
+    POST /api/Auth/login
+    Content-Type: application/json
 
-    ```json
-    POST /api/products
     {
-      "name": "Laptop XYZ",
-      "description": "High-specification laptop",
-      "price": 12000000
+        "username": "admin",
+        "password": "Admin123!"
     }
     ```
 
-* **Get Product List:**
+* **Menambahkan Produk Baru:**
+    ```http
+    POST /api/Products
+    Authorization: Bearer your_token_here
+    Content-Type: application/json
 
-    ```json
+    {
+        "name": "Laptop XYZ",
+        "description": "High-specification laptop",
+        "price": 12000000,
+        "categoryId": "c8ad5706-e54c-4c23-b5d8-c22db2984193",
+        "supplierId": "a67c9d1e-25a8-4f44-b73e-f536b8bce410"
+    }
+    ```
+
+* **Mendapatkan Daftar Produk:**
+    ```http
     GET /api/products
+    ```
+
+* **Membuat Pesanan Baru:**
+    ```http
+    POST /api/Orders
+    Authorization: Bearer your_token_here
+    Content-Type: application/json
+
+    {
+        "customerId": "f1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+        "orderDetails": [
+            {
+                "productId": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+                "quantity": 2,
+                "unitPrice": 1200000
+            },
+            {
+                "productId": "b1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+                "quantity": 1,
+                "unitPrice": 500000
+            }
+        ]
+    }
+    ```
+
+* **Mendapatkan Laporan Nilai Inventaris:**
+    ```http
+    GET /api/Report/inventory-value
+    Authorization: Bearer your_token_here
     ```
 
 ## Contribution
@@ -193,137 +293,252 @@ Authorization: Bearer your_token_here
 - **400 Bad Request**: Invalid input data
 - **404 Not Found**: Resource not found
 
-# ERD API Produk
+# Database Schema dan Relasi
 
-## Entitas
+## Model Entitas dan Relasinya
 
 ### Products
-
-* **ProductID** (INT, Primary Key)
-* **ProductName** (VARCHAR)
-* **Description** (TEXT)
-* **Price** (DECIMAL)
-* **CategoryID** (INT, Foreign Key)
-* **SupplierID** (INT, Foreign Key)
+* **Id** (Guid, Primary Key)
+* **Name** (string)
+* **Description** (string)
+* **Price** (decimal)
+* **CategoryId** (Guid, Foreign Key)
+* **SupplierId** (Guid, Foreign Key)
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
 ### Categories
-
-* **CategoryID** (INT, Primary Key)
-* **CategoryName** (VARCHAR)
+* **Id** (Guid, Primary Key)
+* **Name** (string)
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
 ### Inventory
+* **Id** (Guid, Primary Key)
+* **ProductId** (Guid, Foreign Key)
+* **StockQuantity** (int)
+* **LastStockUpdate** (DateTime)
+* **CreatedAt** (DateTime)
 
-* **InventoryID** (INT, Primary Key)
-* **ProductID** (INT, Foreign Key)
-* **StockQuantity** (INT)
-* **LastStockUpdate** (DATETIME)
+### InventoryHistory
+* **Id** (Guid, Primary Key)
+* **InventoryId** (Guid, Foreign Key)
+* **ProductId** (Guid, Foreign Key)
+* **PreviousQuantity** (int)
+* **NewQuantity** (int)
+* **QuantityChange** (int)
+* **ChangeType** (string) - "Addition", "Reduction", "Adjustment"
+* **Notes** (string)
+* **ChangedAt** (DateTime)
 
 ### Suppliers
+* **Id** (Guid, Primary Key)
+* **Name** (string)
+* **ContactPerson** (string)
+* **ContactPhone** (string)
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
-* **SupplierID** (INT, Primary Key)
-* **SupplierName** (VARCHAR)
-* **ContactPerson** (VARCHAR)
-* **ContactPhone** (VARCHAR)
+### Customer
+* **Id** (Guid, Primary Key)
+* **Name** (string)
+* **Email** (string)
+* **Phone** (string)
+* **Address** (string)
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
 ### Orders
-
-* **OrderID** (INT, Primary Key)
-* **OrderDate** (DATETIME)
-* **CustomerID** (INT, Foreign Key)
-* **TotalAmount** (DECIMAL)
+* **Id** (Guid, Primary Key)
+* **OrderDate** (DateTime)
+* **CustomerId** (Guid, Foreign Key)
+* **TotalAmount** (decimal)
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
 ### OrderDetails
+* **Id** (Guid, Primary Key)
+* **OrderId** (Guid, Foreign Key)
+* **ProductId** (Guid, Foreign Key)
+* **Quantity** (int)
+* **UnitPrice** (decimal)
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
-* **OrderDetailID** (INT, Primary Key)
-* **OrderID** (INT, Foreign Key)
-* **ProductID** (INT, Foreign Key)
-* **Quantity** (INT)
-* **UnitPrice** (DECIMAL)
+### User
+* **Id** (Guid, Primary Key)
+* **Username** (string)
+* **Email** (string)
+* **PasswordHash** (string)
+* **Role** (string) - "User", "Admin"
+* **CreatedAt** (DateTime)
+* **UpdatedAt** (DateTime)
 
-## Relasi
+## Relasi Antar Tabel
 
-* Products memiliki satu Category (1:1..*).
-* Products memiliki satu Supplier (1:1).
-* Inventory terhubung ke satu Product (1:1).
-* Orders terdiri dari banyak OrderDetails (1:N).
-* OrderDetails terhubung ke satu Order (N:1).
-* OrderDetails terhubung ke satu Product (N:1).
+1. **Products ↔ Categories** (Many-to-One)
+   - Setiap produk memiliki satu kategori
+   - Satu kategori dapat memiliki banyak produk
 
-## Diagram
+2. **Products ↔ Suppliers** (Many-to-One)
+   - Setiap produk memiliki satu supplier
+   - Satu supplier dapat memasok banyak produk
+
+3. **Products ↔ Inventory** (One-to-Many)
+   - Setiap produk dapat memiliki beberapa catatan inventaris
+   - Satu catatan inventaris hanya terkait dengan satu produk
+
+4. **Products ↔ OrderDetails** (One-to-Many)
+   - Satu produk dapat berada di banyak detail pesanan
+   - Satu detail pesanan hanya terkait dengan satu produk
+
+5. **Inventory ↔ InventoryHistory** (One-to-Many)
+   - Satu catatan inventaris dapat memiliki banyak riwayat perubahan
+   - Satu riwayat perubahan hanya terkait dengan satu inventaris
+
+6. **Orders ↔ OrderDetails** (One-to-Many)
+   - Satu pesanan dapat terdiri dari banyak detail pesanan
+   - Satu detail pesanan hanya terkait dengan satu pesanan
+
+7. **Customers ↔ Orders** (One-to-Many)
+   - Satu pelanggan dapat membuat banyak pesanan
+   - Satu pesanan hanya terkait dengan satu pelanggan
+
+## Diagram ER
 
 ```mermaid
 erDiagram
     Products {
-        guid ProductID PK
-        varchar ProductName
-        text Description
+        guid Id PK
+        string Name
+        string Description
         decimal Price
-        guid CategoryID FK
-        guid SupplierID FK
+        guid CategoryId FK
+        guid SupplierId FK
+        datetime CreatedAt
+        datetime UpdatedAt
     }
 
     Categories {
-        guid CategoryID PK
-        varchar CategoryName
+        guid Id PK
+        string Name
+        datetime CreatedAt
+        datetime UpdatedAt
     }
 
     Inventory {
-        guid InventoryID PK
-        guid ProductID FK
+        guid Id PK
+        guid ProductId FK
         int StockQuantity
         datetime LastStockUpdate
+        datetime CreatedAt
+    }
+
+    InventoryHistory {
+        guid Id PK
+        guid InventoryId FK
+        guid ProductId FK
+        int PreviousQuantity
+        int NewQuantity
+        int QuantityChange
+        string ChangeType
+        string Notes
+        datetime ChangedAt
     }
 
     Suppliers {
-        guid SupplierID PK
-        varchar SupplierName
-        varchar ContactPerson
-        varchar ContactPhone
+        guid Id PK
+        string Name
+        string ContactPerson
+        string ContactPhone
+        datetime CreatedAt
+        datetime UpdatedAt
     }
 
     Customer {
         guid Id PK
-        varchar Name
-        varchar Email
-        varchar Phone
-        varchar Address
+        string Name
+        string Email
+        string Phone
+        string Address
+        datetime CreatedAt
+        datetime UpdatedAt
     }
 
     Orders {
-        guid OrderID PK
+        guid Id PK
         datetime OrderDate
-        guid CustomerID FK
+        guid CustomerId FK
         decimal TotalAmount
+        datetime CreatedAt
+        datetime UpdatedAt
     }
 
     OrderDetails {
-        guid OrderDetailID PK
-        guid OrderID FK
-        guid ProductID FK
+        guid Id PK
+        guid OrderId FK
+        guid ProductId FK
         int Quantity
         decimal UnitPrice
+        datetime CreatedAt
+        datetime UpdatedAt
+    }
+
+    User {
+        guid Id PK
+        string Username
+        string Email
+        string PasswordHash
+        string Role
+        datetime CreatedAt
+        datetime UpdatedAt
     }
 
     Products }|--|| Categories : memiliki
     Products }|--|| Suppliers : dari
-    Inventory }|--|| Products : memiliki
-    Orders ||--|{ OrderDetails : terdiri dari
-    OrderDetails }|--|| Orders : ada di
+    Products ||--|{ Inventory : memiliki
+    Inventory ||--|{ InventoryHistory : mencatat
+    InventoryHistory }|--|| Products : berkaitan_dengan
+    Orders ||--|{ OrderDetails : terdiri_dari
+    OrderDetails }|--|| Orders : ada_di
     OrderDetails }|--|| Products : berisi
-    Orders }|--|| Customer : ditempatkan oleh
-
+    Orders }|--|| Customer : ditempatkan_oleh
 ```
-### to do
 
-* laporan penjualan per product
-* laporan penjualan per customer
-* laporan detail penjualan
-* laporan riwayat perubahan stok
-* laporan nilai inventaris
-* laporan pembelian per supplier
-* laporan pembelian per produk
-* laporan detail pembelian
-* laporan produk per category - done
-***
-* Laporan Profitabilitas Produk Per Kategori dan Supplier
-* Laporan Tren Pembelian Produk dari Supplier ke Pelanggan
+### Keterangan Format Data
+
+* **Guid**: Pengenal unik universal (direpresentasikan sebagai string di API)
+* **DateTime**: Format ISO 8601 (misal: "2023-03-15T14:30:00Z")
+* **Decimal**: Angka dengan titik desimal (misal: 1500000.00)
+
+### Struktur Respons API
+
+#### Daftar (List):
+```json
+{
+  "message": "Data retrieved successfully",
+  "success": true,
+  "data": [
+    { /* item data */ },
+    { /* item data */ }
+  ]
+}
+```
+
+#### Detail (Single Item):
+```json
+{
+  "message": "Data retrieved successfully",
+  "success": true,
+  "data": { /* item data */ }
+}
+```
+
+#### Error:
+```json
+{
+  "message": "Error message",
+  "success": false,
+  "errors": ["Error detail 1", "Error detail 2"]
+}
+```

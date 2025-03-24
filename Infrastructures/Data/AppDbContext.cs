@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<InventoryHistory> InventoryHistories => Set<InventoryHistory>();
 
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +39,20 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             .HasOne(i => i.Product)
             .WithMany(p => p.Inventories)
             .HasForeignKey(i => i.ProductId)
+            .IsRequired();
+
+        // InventoryHistory - Product relationship (One-to-Many)
+        modelBuilder.Entity<InventoryHistory>()
+            .HasOne(ih => ih.Product)
+            .WithMany()
+            .HasForeignKey(ih => ih.ProductId)
+            .IsRequired();
+
+        // InventoryHistory - Inventory relationship (One-to-Many)
+        modelBuilder.Entity<InventoryHistory>()
+            .HasOne(ih => ih.Inventory)
+            .WithMany()
+            .HasForeignKey(ih => ih.InventoryId)
             .IsRequired();
 
         // Order - Customer relationship (One-to-Many)
@@ -81,6 +96,9 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             .HasKey(o => o.Id);
 
         modelBuilder.Entity<OrderDetail>()
-            .HasKey(od => od.Id); 
+            .HasKey(od => od.Id);
+            
+        modelBuilder.Entity<InventoryHistory>()
+            .HasKey(ih => ih.Id);
     }
 }
