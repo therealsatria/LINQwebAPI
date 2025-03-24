@@ -3,12 +3,14 @@ using Infrastructure.DTOs.Report;
 using Infrastructure.Exceptions;
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Infrastructure.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ReportController : ControllerBase
 {
     private readonly IReportService _reportService;
@@ -19,6 +21,7 @@ public class ReportController : ControllerBase
     }
 
     [HttpGet("products-by-category")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<ProductCategoryReportDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetProductReportByCategory()
@@ -35,6 +38,7 @@ public class ReportController : ControllerBase
     }
 
     [HttpGet("products-by-category/{categoryId}")]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ProductCategoryReportDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

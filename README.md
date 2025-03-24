@@ -312,3 +312,18 @@ erDiagram
     OrderDetails }|--|| Products : berisi
     Orders }|--|| Customer : ditempatkan oleh
 
+```
+### to do
+
+* laporan penjualan per product
+* laporan penjualan per customer
+* laporan detail penjualan
+* laporan riwayat perubahan stok
+* laporan nilai inventaris
+* laporan pembelian per supplier
+* laporan pembelian per produk
+* laporan detail pembelian
+* laporan produk per category - done
+***
+* Laporan Profitabilitas Produk Per Kategori dan Supplier
+* Laporan Tren Pembelian Produk dari Supplier ke Pelanggan
