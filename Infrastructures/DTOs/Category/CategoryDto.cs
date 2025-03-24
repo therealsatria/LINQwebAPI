@@ -1,9 +1,10 @@
-namespace Infrastructure.DTOs.Category;
+using Infrastructure.DTOs.Generic;
+using System;
 
-public class CategoryDto
+namespace Infrastructure.DTOs.Category
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-}
+    public class CategoryDto : BaseDto
+    {
+        public string Name { get; set; } = string.Empty;
+    }
+} 

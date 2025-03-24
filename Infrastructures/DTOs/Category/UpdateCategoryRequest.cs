@@ -3,10 +3,10 @@ using Infrastructure.DTOs.Generic;
 
 namespace Infrastructure.DTOs.Category
 {
-    public class CreateCategoryRequest : CreateRequest
+    public class UpdateCategoryRequest : UpdateRequest
     {
         [Required]
         [StringLength(100, MinimumLength = 2)]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
     }
-}
+} 

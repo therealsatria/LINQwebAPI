@@ -1,162 +1,51 @@
 using Infrastructure.DTOs.Category;
-using Infrastructure.Exceptions;
+using Infrastructure.Models;
 using Infrastructure.Services;
+using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
-namespace Infrastructure.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-[Authorize]
-public class CategoryController : ControllerBase
+namespace Infrastructure.Controllers
 {
-    private readonly ICategoryService _categoryService;
-    public CategoryController(ICategoryService categoryService)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : GenericController<Category, CategoryDto, CreateCategoryRequest, UpdateCategoryRequest>
     {
-        _categoryService = categoryService ?? throw new ArgumentNullException(nameof(CategoryService));
-    }
+        private readonly IGenericService<Category, CategoryDto, CreateCategoryRequest, UpdateCategoryRequest> _genericService;
 
-    [HttpGet]
-    [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAllAsync()
-    {
-        var categories = await _categoryService.GetAllAsync();
-        return Ok(
-            new
-            {
-                statusCode = 200,
-                message = "Categories retrieved successfully",
-                Success = true,
-                Categories = categories
-            }
-        );
-    }
-    [HttpGet("{id:guid}")]
-    [AllowAnonymous]
-    public async Task<ActionResult<CategoryDto>> GetAsync(Guid id)
-    {
-        try
+        public CategoryController(IGenericService<Category, CategoryDto, CreateCategoryRequest, UpdateCategoryRequest> service)
+            : base(service)
         {
-            var category = await _categoryService.GetAsync(id);
-            return Ok(
-                new
-                {
-                    statusCode = 200,
-                    message = "Category retrieved successfully",
-                    Success = true,
-                    Category = category
-                }
-            );
+            _genericService = service;
         }
-        catch (NotFoundException ex)
-        {
-            return NotFound(
-                new
-                {
-                    statusCode = 404,
-                    message = ex.Message,
-                    Success = false
-                }
-            );
-        }
-    }
 
-    [HttpPost]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<CategoryDto>> CreateAsync([FromBody] CreateCategoryRequest request)
-    {
-        try
+        // Override metode dari generic controller jika diperlukan
+        // atau tambahkan metode khusus untuk Category
+        
+        // Contoh: Override untuk menambahkan kebijakan otorisasi khusus
+        [HttpPost]
+        // [Authorize(Roles = "Admin")] // Hanya admin yang bisa membuat kategori
+        public override async Task<IActionResult> Create([FromBody] CreateCategoryRequest request)
         {
-            var category = await _categoryService.CreateAsync(request);
-            return Ok(
-            new
-            {
-                statusCode = 201,
-                message = "Category created successfully",
-                Success = true,
-                Category = category
-            }
-            );
+            return await base.Create(request);
         }
-        catch (ArgumentNullException ex)
+
+        [HttpPut("{id}")]
+        // [Authorize(Roles = "Admin")] // Hanya admin yang bisa mengubah kategori
+        public override async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryRequest request)
         {
-            return BadRequest(
-                new
-                {
-                    statusCode = 400,
-                    message = ex.Message,
-                    Success = false
-                }
-            );
+            return await base.Update(id, request);
         }
-    }
-    [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<CategoryDto>> UpdateAsync(Guid id, [FromBody] UpdateCategoryRequest request)
-    {
-        try
+
+        [HttpDelete("{id}")]
+        // [Authorize(Roles = "Admin")] // Hanya admin yang bisa menghapus kategori
+        public override async Task<IActionResult> Delete(Guid id)
         {
-            var category = await _categoryService.UpdateAsync(id, request);
-            return Ok(
-                new
-                {
-                    statusCode = 200,
-                    message = "Category updated successfully",
-                    Success = true,
-                    Category = category
-                }
-            );
+            return await base.Delete(id);
         }
-        catch (NotFoundException ex)
-        {
-            return NotFound(
-                new
-                {
-                    statusCode = 404,
-                    message = ex.Message,
-                    Success = false
-                }
-            );
-        }
-        catch (ArgumentNullException ex)
-        {
-            return BadRequest(
-                new
-                {
-                    statusCode = 400,
-                    message = ex.Message,
-                    Success = false
-                }
-            );
-        }
-    }
-    [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> DeleteAsync(Guid id)
-    {
-        try
-        {
-            await _categoryService.DeleteAsync(id);
-            return Ok(
-            new
-            {
-                statusCode = 200,
-                message = "Category deleted successfully",
-                Success = true
-            }
-        );
-        }
-        catch (NotFoundException ex)
-        {
-            return NotFound(
-                new
-                {
-                    statusCode = 404,
-                    message = ex.Message,
-                    Success = false
-                }
-            );
-        }
+
+        // Endpoint Get tidak dioverride karena bisa diakses secara publik (AllowAnonymous sudah diatur di kelas dasar)
     }
 }

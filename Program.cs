@@ -1,6 +1,10 @@
 using System.Text;
 using Infrastructure.Data;
+using Infrastructure.DTOs.Category;
+using Infrastructure.Mappers;
+using Infrastructure.Models;
 using Infrastructure.Repositories;
+using Infrastructure.Repositories.Interfaces;
 using Infrastructure.Services;
 using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,22 +14,39 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
-builder.Services.AddScoped<IInventoryService, InventoryService>();
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Repositories
+builder.Services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+builder.Services.AddScoped<IGenericRepository<Product>, GenericRepository<Product>>();
+builder.Services.AddScoped<IGenericRepository<Inventory>, GenericRepository<Inventory>>();
+builder.Services.AddScoped<IGenericRepository<Supplier>, GenericRepository<Supplier>>();
+builder.Services.AddScoped<IGenericRepository<Customer>, GenericRepository<Customer>>();
+builder.Services.AddScoped<IGenericRepository<Order>, GenericRepository<Order>>();
+builder.Services.AddScoped<IGenericRepository<OrderDetail>, GenericRepository<OrderDetail>>();
 builder.Services.AddScoped<IInventoryHistoryRepository, InventoryHistoryRepository>();
+
+// Legacy Repositories
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
-builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+
+// Services - New Generic Way
+builder.Services.AddScoped<IGenericService<Category, CategoryDto, CreateCategoryRequest, UpdateCategoryRequest>, 
+                          CategoryService>();
+
+// Legacy Services
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
-builder.Services.AddScoped<IReportService, ReportService>();
 
 // Add JWT Authentication services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
