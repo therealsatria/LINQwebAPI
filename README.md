@@ -90,20 +90,108 @@ If you would like to contribute to this project, please fork the repository and 
 
 This project is licensed under the \[MIT/Apache 2.0/etc.] license.
 
+## Authentication and Authorization
 
-`<tipe>/<deskripsi-singkat>`
+The API uses JWT (JSON Web Token) authentication. To access protected endpoints, you need to:
 
-`feature/add-payment-gateway`
+1. Register a new user or use the default admin account:
+   - Default admin credentials:
+     - Username: admin
+     - Email: admin@example.com
+     - Password: Admin123!
 
-`feature/add-user-authentication`
+2. Obtain a JWT token by logging in:
+```http
+POST /api/Auth/login
+Content-Type: application/json
 
-`db/add-orders-table`
+{
+    "username": "your_username",
+    "password": "your_password"
+}
+```
 
-`bugfix/fix-login-validation-error`
+3. Use the token in subsequent requests:
+   - Add the Authorization header: `Bearer your_token_here`
+   - In Swagger UI: 
+     1. Click the "Authorize" button (lock icon) at the top right of the page
+     2. In the popup dialog, enter your token in the format: `Bearer your_token_here`
+     3. Click "Authorize" and close the dialog
+     4. All subsequent API calls will include your token
 
-`refactor/simplify-payment-logic`
+### Using Swagger UI with JWT Authentication
 
-`experiment/test-new-auth-library`
+1. Start the application and navigate to the Swagger UI (usually at `/swagger`)
+2. First, make a POST request to `/api/Auth/login` with your credentials to get a token
+3. Click the "Authorize" button (lock icon) at the top right of the Swagger UI
+4. In the popup dialog, enter your token in the format: `Bearer your_token_here`
+   - Make sure to include the word "Bearer" followed by a space before your token
+5. Click "Authorize" and close the dialog
+6. Now you can access protected endpoints through the Swagger UI
+7. The lock icons next to endpoints indicate whether they require authentication
+
+### Protected Endpoints
+
+#### Categories
+- Public endpoints (no authentication required):
+  ```http
+  GET /api/Category
+  GET /api/Category/{id}
+  ```
+
+- Admin-only endpoints (requires admin role):
+  ```http
+  POST /api/Category
+  PUT /api/Category/{id}
+  DELETE /api/Category/{id}
+  ```
+
+### User Roles
+- **User**: Basic authenticated user
+  - Can access protected endpoints
+  - Cannot modify system data
+
+- **Admin**: Administrative user
+  - Full access to all endpoints
+  - Can manage categories, products, and other system data
+  - Can view list of users
+
+### Authentication Examples
+
+1. Login and get token:
+```http
+POST /api/Auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "Admin123!"
+}
+```
+
+2. Create a new category (Admin only):
+```http
+POST /api/Category
+Authorization: Bearer your_token_here
+Content-Type: application/json
+
+{
+    "name": "New Category"
+}
+```
+
+3. Get current user info:
+```http
+GET /api/Auth/me
+Authorization: Bearer your_token_here
+```
+
+### Error Responses
+
+- **401 Unauthorized**: Missing or invalid token
+- **403 Forbidden**: Valid token but insufficient permissions
+- **400 Bad Request**: Invalid input data
+- **404 Not Found**: Resource not found
 
 # ERD API Produk
 
